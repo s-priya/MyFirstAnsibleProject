@@ -1,0 +1,6 @@
+[local]
+ansible-controller hostname=10.5.3.6 ansible_ssh_user=devops
+[ubuntuserver]
+ansible-target2 hostname=10.5.3.7 ansible_ssh_user=devops
+[centosserver]
+ansible-target3 hostname=10.5.3.8 ansible_ssh_user=devops

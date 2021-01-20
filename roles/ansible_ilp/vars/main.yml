@@ -1,0 +1,5 @@
+---
+# vars file for ./roles/ansible_ilp
+tomcat_home: /usr/share/tomcat
+tomcat_folder: apache-tomcat-8.5.61
+tomcat_port: 8090
