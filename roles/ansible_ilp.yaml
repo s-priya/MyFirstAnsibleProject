@@ -1,6 +1,4 @@
 - hosts: all
-  roles:
-  - ansible_ilp
   environment:
    JAVA_HOME: /usr/lib/jvm/java-11-openjdk-amd64
    PATH: /usr/lib/jvm/java-11-openjdk-amd64/bin:{{ ansible_env.PATH }} 
