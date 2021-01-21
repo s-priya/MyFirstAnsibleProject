@@ -3,3 +3,6 @@
 
 - name: Start tomcat service
   shell: "/usr/share/tomcat/apache-tomcat-8.5.61/bin/startup.sh" 
+  
+- name: Stop tomcat service
+  shell: "/usr/share/tomcat/apache-tomcat-8.5.61/bin/shutdown.sh" 

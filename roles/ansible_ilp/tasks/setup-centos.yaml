@@ -1,0 +1,32 @@
+- name : Install Java in Cent OS
+  become: yes
+  package: 
+    name: "{{package_name}}"
+    state: present
+    
+- name: Set JAVA_HOME
+  become: yes
+  lineinfile: 
+    dest: /etc/environment
+    state: present
+    regexp: '^JAVA_HOME'
+    line: 'JAVA_HOME=/usr/lib/jvm/jre'
+    
+- name: Set MAVEN_HOME
+  become: yes
+  lineinfile: 
+    dest: /etc/environment
+    state: present
+    regexp: '^MAVEN_HOME'
+    line: 'MAVEN_HOME=/usr/share/maven'
+    
+- name: Change the settings of Maven
+  become: yes
+  template:
+   src: settings.xml
+   dest: "/usr/share/maven/conf/."
+    
+
+   
+
+

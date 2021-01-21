@@ -1,0 +1,12 @@
+- name : Install Java in Ubuntu
+  become: yes
+  apt: 
+    name: "{{package_name}}"
+    state: present
+    
+- name: Change the settings of Maven
+  become: yes
+  template:
+   src: settings.xml
+   dest: "/usr/share/maven/conf/."
+

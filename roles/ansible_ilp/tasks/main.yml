@@ -1,0 +1,58 @@
+---
+# tasks file for ./roles/ansible_ilp
+# Setup / Install tasks based on os
+# Ubuntu Os
+- name: Include variables and Install Java for Ubuntu OS
+  block:
+  - name: Include variables Ubuntu OS
+    include_vars: ubuntu-vars.yaml
+  - name: Include tasks for Ubuntu OS
+    include_tasks: setup-ubuntu.yaml
+  when: ansible_os_family == 'Debian'
+  
+# Cent Os
+- name: Include variables and Install Java and maven for Cent OS
+  block:
+  - name: Include variables Cent OS
+    include_vars: centos-vars.yaml
+  - name: Include tasks for Cent OS
+    include_tasks: setup-centos.yaml
+  when: ansible_os_family == 'RedHat'
+  
+- name: Create a directory for Tomcat
+  become: yes
+  file: 
+    path: "{{tomcat_home}}"
+    state: directory
+    mode: 0777
+  register: tomcat_installed   
+
+- name: Extract Tomcat tar file
+  unarchive:
+    src: apache-tomcat-8.5.61.tar.gz
+    dest: "{{tomcat_home}}"
+  when: tomcat_installed.changed
+
+- block:
+  - name: Change the port in which Tomcat is running
+    become: yes
+    template:
+     src: server.xml.j2
+     dest: "{{tomcat_home}}/{{tomcat_folder}}/conf/server.xml"
+    notify: Start tomcat service
+    when: tomcat_installed.changed
+  - name: Change the tomcat user file
+    become: yes
+    template:
+     src: tomcat-users.xml
+     dest: "{{tomcat_home}}/{{tomcat_folder}}/conf/tomcat-users.xml"
+    notify: Stop tomcat service
+    notify: Start tomcat service
+        
+- name: Copy application to tomcat
+  become: yes
+  copy:
+   src: "/home/devops/workdir/my-ansible-playbook/roles/ansible_ilp/files/bookstore.war"
+   dest: "{{tomcat_home}}/{{tomcat_folder}}/webapps/."
+    
+ 

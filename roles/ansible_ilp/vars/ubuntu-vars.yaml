@@ -1,0 +1,4 @@
+package_name:
+ - maven
+ - openjdk-11-jdk
+
